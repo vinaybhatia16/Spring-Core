@@ -70,25 +70,23 @@ public class UserDao {
 			if (dto.getFirstName() != null && dto.getFirstName().length() > 0) {
 				sql.append(" and first_name like '" + dto.getFirstName() + "%'");
 			}
-			
+
 			if (dto.getLastName() != null && dto.getLastName().length() > 0) {
 				sql.append(" and last_name like '" + dto.getLastName() + "%'");
 			}
 
 		}
-		
-		if (pageSize > 0 ) {
+
+		if (pageSize > 0) {
 			pageNo = (pageNo - 1) * pageSize;
-			
+
 			sql.append("limit " + pageNo + "," + pageSize);
 		}
-		
+
 		List<UserDto> list = jdbcTemplate.query(sql.toString(), new UserMapper());
-		
-		
 
 		return list;
 
-	} 
+	}
 
 }
