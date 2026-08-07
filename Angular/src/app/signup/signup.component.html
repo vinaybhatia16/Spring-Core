@@ -1,0 +1,35 @@
+<div align="center">
+  <h1> User Registration </h1>
+
+  <h3 style="color: red;"> {{ this.form.errorMessage }} </h3>
+  <h3 style="color: green;"> {{ this.form.successMessage }} </h3>    
+  <form (submit)="signUp()">
+    <table>
+      <tr>
+        <th>First Name:</th>
+        <td><input type="text" name="firstName" [(ngModel)]="this.form.firstName" placeholder="Enter your first name" required></td>
+      </tr>
+      <tr>
+        <th>Last Name:</th>
+        <td><input type="text" name="lastName" [(ngModel)]="this.form.lastName" placeholder="Enter your last name" required></td>
+      </tr>
+      <tr>
+        <th>Login:</th>
+        <td><input type="text" name="login" [(ngModel)]="this.form.login" placeholder="Enter your login" required></td>
+      </tr>
+      <tr>
+        <th>Password:</th>
+        <td><input type="password" name="password" [(ngModel)]="this.form.password" placeholder="Enter your password" required></td>
+      </tr>
+<tr>
+  <th>Date of Birth:</th>
+  <td><input type="date" name="dob" [(ngModel)]="this.form.dob" required></td>
+</tr>
+
+      <tr>
+        <th></th>
+        <td colspan="2"><input type="submit" value="Sign up"></td>
+      </tr>
+    </table>
+  </form>       
+</div>

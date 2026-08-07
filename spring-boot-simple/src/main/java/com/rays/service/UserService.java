@@ -1,5 +1,7 @@
 package com.rays.service;
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
@@ -7,6 +9,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import com.rays.dao.UserDAO;
 import com.rays.dto.UserDTO;
+import com.rays.exception.DuplicateRecordException;
 
 @Service
 @Transactional
@@ -15,14 +18,37 @@ public class UserService {
 	@Autowired
 	UserDAO dao;
 
-	@Transactional(propagation = Propagation.REQUIRED)
-	public void save(UserDTO dto) {
+	public UserDTO findByLogin(String login) {
+		UserDTO dto = dao.findBYUniqueKey(login, login);
 
-		if (dto.getId() != null && dto.getId() > 0) {
-			dao.update(dto);
-		} else {
-			dao.add(dto);
+		if (dto != null) {
+			return dto;
 		}
+		return null;
+	}
+
+	@Transactional(propagation = Propagation.REQUIRED)
+	public long add(UserDTO dto) {
+
+		UserDTO existdto = findByLogin(dto.getLogin());
+
+		if (existdto != null) {
+			throw new DuplicateRecordException("login id already exits");
+		}
+
+		long pk = dao.add(dto);
+		return pk;
+	}
+
+	
+	@Transactional(propagation = Propagation.REQUIRED)
+	public void update(UserDTO dto) {
+		UserDTO existdto = findByLogin(dto.getLogin());
+
+		if (existdto != null) {
+			throw new DuplicateRecordException("login id already exists");
+		}
+		dao.update(dto);
 	}
 
 	@Transactional(propagation = Propagation.REQUIRED)
@@ -34,5 +60,34 @@ public class UserService {
 	public UserDTO findByPk(long id) {
 		return dao.findByPk(id);
 	}
+	
+	@Transactional(propagation = Propagation.REQUIRED)
+	public long save(UserDTO dto) {
+		Long id = dto.getId();
+		if (id != null && id > 0)
+			update(dto);
+		else
+			id = add(dto);
+		return id;
+	}
 
+	@Transactional(readOnly = true)
+	public List<UserDTO> search(UserDTO dto, int pageNo, int pageSize) {
+		return dao.search(dto, pageNo, pageSize);
+	}
+
+	@Transactional(readOnly = true)
+	public UserDTO authenticate(String login, String password) {
+
+		UserDTO dto = dao.findBYUniqueKey("login", login);
+
+		if (dto != null) {
+			if (dto.getPassword().equals(password)) {
+				return dto;
+			}
+		}
+		return null;
+	}
+	
+	
 }

@@ -1,7 +1,15 @@
 package com.rays.dao;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
+import javax.persistence.TypedQuery;
+import javax.persistence.criteria.CriteriaBuilder;
+import javax.persistence.criteria.CriteriaQuery;
+import javax.persistence.criteria.Predicate;
+import javax.persistence.criteria.Root;
 
 import org.springframework.stereotype.Repository;
 
@@ -41,6 +49,47 @@ public class RoleDAO {
 
 		return dto;
 
+	}
+	
+	
+	
+	public List<RoleDTO> search(RoleDTO dto , int pageNo , int pageSize) {
+		
+		CriteriaBuilder builder =  entityManager.getCriteriaBuilder();
+		
+		CriteriaQuery<RoleDTO> cq = builder.createQuery(RoleDTO.class);
+		
+		 Root<RoleDTO> root =cq.from(RoleDTO.class);
+		 
+		 List<Predicate> predicatelist = new ArrayList<Predicate>();
+		 
+		 if(dto != null) {
+		 
+		 if (dto.getId() != null && dto.getId() > 0 ) {
+		predicatelist.add(builder.equal(root.get("id"), dto.getId()));
+		 }
+		 
+		  if(dto.getName() != null && dto.getName().length() > 0) {
+			  predicatelist.add(builder.like(root.get("name"),dto.getName() + "%"));
+		  }
+		  
+		  if(dto.getDescription() != null && dto.getDescription().length() >0) {
+			  predicatelist.add(builder.equal(root.get("description"), dto.getDescription() + "%"));
+		  }
+		 }
+		 
+		 cq.where(predicatelist.toArray(new Predicate[predicatelist.size()]));
+		 
+		 TypedQuery<RoleDTO> query = entityManager.createQuery(cq);
+		 
+		 if (pageSize >0 ) {
+			 query.setFirstResult(pageNo * pageSize);
+			 query.setMaxResults(pageSize);
+		 }
+		 
+		 List<RoleDTO> list =query.getResultList();
+		 return list;
+				 
 	}
 
 }
