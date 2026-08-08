@@ -6,4 +6,7 @@ import { Component } from '@angular/core';
 })
 export class WelcomeComponent {
 
+  welcomeMsg = 'Welcome to the Online Result System!';
+
+  
 }
