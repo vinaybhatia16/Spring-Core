@@ -19,7 +19,7 @@ public class UserService {
 	UserDAO dao;
 
 	public UserDTO findByLogin(String login) {
-		UserDTO dto = dao.findBYUniqueKey(login, login);
+		UserDTO dto = dao.findBYUniqueKey("login", login);
 
 		if (dto != null) {
 			return dto;

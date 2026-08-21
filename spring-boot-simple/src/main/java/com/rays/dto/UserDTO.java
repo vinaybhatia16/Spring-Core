@@ -5,9 +5,28 @@ import javax.persistence.Entity;
 import javax.persistence.Table;
 
 import com.rays.common.BaseDTO;
+
 @Entity
 @Table(name = "st_user")
-public class UserDTO  extends BaseDTO{
+public class UserDTO extends BaseDTO {
+
+	@Column(name = "FirstName")
+	private String firstName;
+
+	@Column(name = "LastName")
+	private String lastName;
+
+	@Column(name = "Login")
+	private String login;
+
+	@Column(name = "password")
+	private String password;
+
+	@Column(name = "roleId")
+	private Long roleId;
+
+	@Column(name = "roleName")
+	private String roleName;
 
 	public String getFirstName() {
 		return firstName;
@@ -41,13 +60,11 @@ public class UserDTO  extends BaseDTO{
 		this.password = password;
 	}
 
-	
-
-	public long getRoleId() {
+	public Long getRoleId() {
 		return roleId;
 	}
 
-	public void setRoleId(long roleId) {
+	public void setRoleId(Long roleId) {
 		this.roleId = roleId;
 	}
 
@@ -59,22 +76,10 @@ public class UserDTO  extends BaseDTO{
 		this.roleName = roleName;
 	}
 
-	@Column(name = "FirstName")
-	private String firstName;
-	
-	@Column(name = "LastName")
-	private String lastName;
-	
-	@Column(name ="Login")
-	private String login;
-	
-	@Column(name = "password")
-	private String password;
-	
-	@Column(name = "roleId")
-	private long roleId;
-	
-	@Column(name ="roleName")
-	private String roleName;
-	
+	@Override
+	public String getValue() {
+
+		return null;
+	}
+
 }

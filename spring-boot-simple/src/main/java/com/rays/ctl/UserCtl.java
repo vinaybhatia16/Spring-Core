@@ -11,12 +11,13 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.rays.common.ORSResponse;
+import com.rays.dto.RoleDTO;
 import com.rays.dto.UserDTO;
 import com.rays.form.UserForm;
+import com.rays.service.RoleService;
 import com.rays.service.UserService;
 
 @RestController
@@ -24,7 +25,20 @@ import com.rays.service.UserService;
 public class UserCtl extends BaseCtl {
 
 	@Autowired
-	UserService service;
+	public UserService userService;
+	@Autowired
+	RoleService roleService;
+
+	@GetMapping("preload")
+	public ORSResponse preload() {
+		ORSResponse res = new ORSResponse();
+		RoleDTO dto = new RoleDTO();
+		List list = roleService.search(dto, 0, 0);
+
+		res.addResult("roleList", list);
+		return res;
+
+	}
 
 //	http://localhost:8080/User/save
 	@PostMapping("save")
@@ -36,13 +50,13 @@ public class UserCtl extends BaseCtl {
 		}
 		UserDTO dto = (UserDTO) form.getDto();
 		try {
-			if(dto.getId() != null && dto.getId() > 0) {
-				service.update(dto);
+			if (dto.getId() != null && dto.getId() > 0) {
+				userService.update(dto);
 				res.addData(dto);
 				res.addMessage("data updated successfullt");
 				res.setSuccess(true);
 			} else {
-				service.add(dto);
+				userService.add(dto);
 				res.addMessage("user added successfully");
 				res.addData(dto);
 				res.setSuccess(true);
@@ -66,7 +80,7 @@ public class UserCtl extends BaseCtl {
 		}
 
 		UserDTO dto = (UserDTO) form.getDto();
-		service.save(dto);
+		userService.save(dto);
 
 		res.addMessage("user updated successfully");
 		res.addData(dto);
@@ -79,7 +93,7 @@ public class UserCtl extends BaseCtl {
 
 		ORSResponse res = new ORSResponse();
 		for (long id : ids) {
-			service.delete(id);
+			userService.delete(id);
 			res.addMessage("user deleted successfully");
 
 			res.setSuccess(true);
@@ -90,7 +104,7 @@ public class UserCtl extends BaseCtl {
 	@GetMapping("get/{id}")
 	public ORSResponse get(@PathVariable long id) {
 		ORSResponse res = new ORSResponse();
-		UserDTO dto = service.findByPk(id);
+		UserDTO dto = userService.findByPk(id);
 		if (dto != null) {
 			res.setSuccess(true);
 			res.addData(dto);
@@ -99,16 +113,12 @@ public class UserCtl extends BaseCtl {
 		return res;
 	}
 
-	@RequestMapping(method = { RequestMethod.GET, RequestMethod.POST }, value = "/search/{pageNo}")
+	@PostMapping("search/{pageNo}")
 	public ORSResponse search(@RequestBody UserForm form, @PathVariable int pageNo) {
 		ORSResponse res = new ORSResponse();
-
-		int pageSize = 5;
-
 		UserDTO dto = (UserDTO) form.getDto();
-
-		List<UserDTO> list = service.search(dto, pageNo, pageSize);
-
+		int pageSize = 5;
+		List<UserDTO> list = userService.search(dto, pageNo, pageSize);
 		if (list != null && list.size() > 0) {
 			res.setSuccess(true);
 			res.addData(list);

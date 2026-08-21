@@ -38,5 +38,14 @@ public class RoleDTO extends BaseDTO{
 	public void setDescription(String description) {
 		Description = description;
 	}
+
+
+	@Override
+	public String getValue() {
+		
+		return name;
+	}
+
+	
 	
 }
