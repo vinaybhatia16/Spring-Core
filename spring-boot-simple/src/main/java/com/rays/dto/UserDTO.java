@@ -27,6 +27,18 @@ public class UserDTO extends BaseDTO {
 
 	@Column(name = "roleName")
 	private String roleName;
+	
+	@Column(name = "IMAGE_ID")
+	private Long imageId;
+
+
+	public Long getImageId() {
+		return imageId;
+	}
+
+	public void setImageId(Long imageId) {
+		this.imageId = imageId;
+	}
 
 	public String getFirstName() {
 		return firstName;

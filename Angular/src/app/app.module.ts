@@ -10,6 +10,10 @@ import { SignupComponent } from './signup/signup.component';
 import { FooterComponent } from './footer/footer.component';
 import { FormsModule } from '@angular/forms';
 import {HttpClientModule} from '@angular/common/http';
+import { RoleComponent } from './role/role.component';
+import { UserComponent } from './user/user.component';
+import { RoleListComponent } from './role/rolelist.component';
+import { UserListComponent } from './user/userlist.component';
 
 @NgModule({
   declarations: [
@@ -18,7 +22,11 @@ import {HttpClientModule} from '@angular/common/http';
     LoginComponent,
     WelcomeComponent,
     SignupComponent,
-    FooterComponent
+    FooterComponent,
+    RoleComponent,
+    UserComponent,
+    RoleListComponent,
+    UserListComponent
   ],
   imports: [
     BrowserModule,

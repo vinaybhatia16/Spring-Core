@@ -3,29 +3,56 @@ import { RouterModule, Routes } from '@angular/router';
 import { WelcomeComponent } from './welcome/welcome.component';
 import { LoginComponent } from './login/login.component';
 import { SignupComponent } from './signup/signup.component';
+import { RoleComponent } from './role/role.component';
+import { UserComponent } from './user/user.component';
+import { RoleListComponent } from './role/rolelist.component';
+import { UserListComponent } from './user/userlist.component';
 
 const routes: Routes = [
 
   {
-    path:'',
+    path: '',
     redirectTo: 'welcome',
     pathMatch: 'full'
   },
 
   {
-    path :'welcome',
+    path: 'welcome',
     component: WelcomeComponent
   },
 
   {
-    path :'login',
+    path: 'login',
     component: LoginComponent
   },
 
   {
-    path:'signup',
+    path: 'signup',
 
-    component:SignupComponent
+    component: SignupComponent
+  },
+
+  {
+    path: 'role',
+
+    component: RoleComponent
+
+  },
+  {
+    path:'user',
+    component:UserComponent
+  },
+  {
+    path: 'rolelist',
+    component: RoleListComponent
+  },
+  {
+    path: 'userList',
+    component: UserListComponent
+  },
+  {
+    path: 'user/:id',
+    component: UserComponent
   }
 
 

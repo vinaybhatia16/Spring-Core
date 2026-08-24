@@ -45,7 +45,7 @@ public class UserService {
 	public void update(UserDTO dto) {
 		UserDTO existdto = findByLogin(dto.getLogin());
 
-		if (existdto != null) {
+		if (existdto != null && existdto.getId() != dto.getId()) {
 			throw new DuplicateRecordException("login id already exists");
 		}
 		dao.update(dto);
@@ -89,5 +89,10 @@ public class UserService {
 		return null;
 	}
 	
+	@Transactional(readOnly = true)
+	public UserDTO findById(long pk) {
+		UserDTO dto = dao.findByPk(pk);
+		return dto;
 	
+	}
 }

@@ -77,7 +77,7 @@ public class UserForm extends BaseForm {
 		dto.setLastName(lastName);
 		dto.setLogin(login);
 		dto.setPassword(password);
-		dto.setRoleId(0);
+		dto.setRoleId(roleId);
 		return dto;
 	}
 
